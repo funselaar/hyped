@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hyped/data/index.dart';
 import 'package:hyped/screens/countdown/index.dart';
@@ -27,10 +28,13 @@ class HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    return PageView(
-      controller: controller,
-      children: trips.map((trip) => Countdown(trip: trip)).toList(),
-      scrollDirection: Axis.horizontal,
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: PageView(
+        controller: controller,
+        children: trips.map((trip) => Countdown(trip: trip)).toList(),
+        scrollDirection: Axis.horizontal,
+      ),
     );
   }
 }
