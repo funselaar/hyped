@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'screens/home/index.dart';
-import 'theme.dart';
-import 'screens/countdown/index.dart';
 import 'screens/auth/index.dart';
 
 class Routes {
