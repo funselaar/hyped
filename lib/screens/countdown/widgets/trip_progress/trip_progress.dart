@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:hyped/data/index.dart';
@@ -59,7 +60,7 @@ class TripProgressState extends State<TripProgress> {
           child: new Padding(
             padding: const EdgeInsets.all(8.0),
             child: new CircleAvatar(
-              backgroundImage: ExactAssetImage('assets/images/' + trip.image),
+              backgroundImage: FileImage(File(trip.image)),
               minRadius: 90,
               maxRadius: 150,
             ),

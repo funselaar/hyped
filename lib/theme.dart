@@ -11,6 +11,7 @@ class AppTheme {
 
   static final textStyle = TextStyle(fontFamily: "Source Sans Pro", color: textColor);
   static final titleTextStyle = textStyle.copyWith(fontSize: 34.0, fontWeight: FontWeight.w600);
+  static final titleEditTextStyle = textStyle.copyWith(fontSize: 34.0, fontWeight: FontWeight.w600, color: textGreyColor);
   static final buttonTextStyle = textStyle.copyWith(fontSize: 17.0, color: buttonTextColor);
 
   static final smallTripTimeTextStyle = textStyle.copyWith(fontSize: 16.0, color: textGreyColor);

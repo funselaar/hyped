@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:hyped/data/index.dart';
 import 'package:hyped/screens/countdown/widgets/trip_progress/index.dart';
 import 'package:hyped/screens/countdown/widgets/trip_time/index.dart';
 import 'package:hyped/theme.dart';
 import 'package:hyped/widgets/app_button/index.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Countdown extends StatefulWidget {
   final Trip trip;
@@ -21,7 +24,16 @@ class CountdownState extends State<Countdown> {
 
   bool editMode = false;
 
-  CountdownState({this.trip});
+  TextEditingController titleController;
+
+  CountdownState({this.trip}) {
+    titleController = TextEditingController(text: trip.title);
+    titleController.addListener(titleChanged);
+  }
+
+  void titleChanged() {
+    trip.title = titleController.text;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +42,10 @@ class CountdownState extends State<Countdown> {
     } else {
       return buildNormalMode(context);
     }
+  }
+
+  String _getDate() {
+    return "${trip.date.year.toString()}-${trip.date.month.toString().padLeft(2,'0')}-${trip.date.day.toString().padLeft(2,'0')}";
   }
 
   Widget buildEditMode(BuildContext context) {
@@ -41,10 +57,34 @@ class CountdownState extends State<Countdown> {
             children: <Widget>[
               Container(
                 width: 220,
-                child: Text(
-                  trip.title,
-                  style: AppTheme.titleTextStyle,
+                child: TextField(
+                  cursorColor: AppTheme.primaryColor,
                   textAlign: TextAlign.center,
+                  maxLines: 1,
+                  controller: titleController,
+                  keyboardType: TextInputType.text,
+                  style: AppTheme.titleTextStyle,
+                  decoration: InputDecoration(
+                      border: InputBorder.none,
+                      hintText: 'Title',
+                      hintStyle: AppTheme.titleEditTextStyle),
+                ),
+              ),
+              Container(
+                width: 220,
+                height: 220,
+                child: GestureDetector(
+                    onTap: _selectImage,
+                    child: CircleAvatar(
+                      backgroundImage: FileImage(File(trip.image)),
+                      minRadius: 90,
+                      maxRadius: 150,
+                    )),
+              ),
+              Container(
+                child: GestureDetector(
+                    onTap: () => _selectDate(context),
+                    child: Text("${_getDate()}", style: AppTheme.textStyle.copyWith(fontSize: 20), textAlign: TextAlign.center,),
                 ),
               ),
               Container(
@@ -57,7 +97,7 @@ class CountdownState extends State<Countdown> {
               ),
             ],
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           ),
         ),
       ]),
@@ -107,6 +147,29 @@ class CountdownState extends State<Countdown> {
         ],
       ),
     );
+  }
+
+  File galleryFile;
+
+  void _selectImage() async {
+    galleryFile = await ImagePicker.pickImage(source: ImageSource.camera);
+    if (galleryFile == null)
+      return;
+    setState(() {
+      trip.image = galleryFile.path;
+    });
+  }
+
+  Future<Null> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: trip.date,
+        firstDate: DateTime.now().add(Duration(days: 1)),
+        lastDate: DateTime(2100));
+    if (picked != null && picked != trip.date)
+      setState(() {
+        trip.date = picked;
+      });
   }
 
   void toggleEditMode() {

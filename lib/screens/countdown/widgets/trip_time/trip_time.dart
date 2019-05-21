@@ -131,30 +131,30 @@ class TripTimeState extends State<TripTime> {
               )
             ],
           ),
-          Column(
-            children: <Widget>[
-              Text(
-                ":",
-                style: AppTheme.bigTripTimeTextStyle,
-              ),
-              Text(
-                "",
-                style: AppTheme.smallTripTimeTextStyle,
-              )
-            ],
-          ),
-          Column(
-            children: <Widget>[
-              Text(
-                seconds.toString(),
-                style: AppTheme.bigTripTimeTextStyle,
-              ),
-              Text(
-                "seconds",
-                style: AppTheme.smallTripTimeTextStyle,
-              )
-            ],
-          )
+          // Column(
+          //   children: <Widget>[
+          //     Text(
+          //       ":",
+          //       style: AppTheme.bigTripTimeTextStyle,
+          //     ),
+          //     Text(
+          //       "",
+          //       style: AppTheme.smallTripTimeTextStyle,
+          //     )
+          //   ],
+          // ),
+          // Column(
+          //   children: <Widget>[
+          //     Text(
+          //       seconds.toString(),
+          //       style: AppTheme.bigTripTimeTextStyle,
+          //     ),
+          //     Text(
+          //       "seconds",
+          //       style: AppTheme.smallTripTimeTextStyle,
+          //     )
+          //   ],
+          // )
         ],
       ),
     ]);
