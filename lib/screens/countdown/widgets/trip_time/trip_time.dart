@@ -22,11 +22,13 @@ class TripTimeState extends State<TripTime> {
   int days = 0;
   int hours = 0;
   int minutes = 0;
+  int seconds = 0;
 
   TripTimeState({this.trip}) {
     days = getDays();
     hours = getHours();
     minutes = getMinutes();
+    seconds = getSeconds();
   }
 
   @override
@@ -40,6 +42,7 @@ class TripTimeState extends State<TripTime> {
       days = getDays();
       hours = getHours();
       minutes = getMinutes();
+      seconds = getSeconds();
     });
   }
 
@@ -59,6 +62,10 @@ class TripTimeState extends State<TripTime> {
 
   int getMinutes() {
     return trip.date.difference(DateTime.now()).inMinutes - (trip.date.difference(DateTime.now()).inHours * 60);
+  }
+
+  int getSeconds() {
+    return trip.date.difference(DateTime.now()).inSeconds - (trip.date.difference(DateTime.now()).inMinutes * 60);
   }
 
   @override
@@ -120,6 +127,30 @@ class TripTimeState extends State<TripTime> {
               ),
               Text(
                 "minutes",
+                style: AppTheme.smallTripTimeTextStyle,
+              )
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              Text(
+                ":",
+                style: AppTheme.bigTripTimeTextStyle,
+              ),
+              Text(
+                "",
+                style: AppTheme.smallTripTimeTextStyle,
+              )
+            ],
+          ),
+          Column(
+            children: <Widget>[
+              Text(
+                seconds.toString(),
+                style: AppTheme.bigTripTimeTextStyle,
+              ),
+              Text(
+                "seconds",
                 style: AppTheme.smallTripTimeTextStyle,
               )
             ],

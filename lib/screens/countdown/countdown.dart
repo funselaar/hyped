@@ -19,12 +19,22 @@ class Countdown extends StatefulWidget {
 class CountdownState extends State<Countdown> {
   final Trip trip;
 
+  bool editMode = false;
+
   CountdownState({this.trip});
 
   @override
   Widget build(BuildContext context) {
+    if (editMode) {
+      return buildEditMode(context);
+    } else {
+      return buildNormalMode(context);
+    }
+  }
+
+  Widget buildEditMode(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(16.0, 32.0, 16.0, 16.0),
+      padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
       child: Row(children: <Widget>[
         Expanded(
           child: Column(
@@ -38,20 +48,11 @@ class CountdownState extends State<Countdown> {
                 ),
               ),
               Container(
-                width: 240.0,
-                height: 240.0,
-                child: TripProgress(trip: trip),
-              ),
-              Container(
-                width: 240.0,
-                child: TripTime(trip: trip),
-              ),
-              Container(
                 child: AppButton(
-                  buttonName: "Restart",
+                  buttonName: "Done",
                   gradient: LinearGradient(
                       colors: [AppTheme.primaryColor, AppTheme.secondaryColor]),
-                  onPressed: restart,
+                  onPressed: toggleEditMode,
                 ),
               ),
             ],
@@ -63,9 +64,54 @@ class CountdownState extends State<Countdown> {
     );
   }
 
-  void restart() {
+  Widget buildNormalMode(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 16.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              children: <Widget>[
+                Container(
+                  width: 220,
+                  child: Text(
+                    trip.title,
+                    style: AppTheme.titleTextStyle,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+                Container(
+                  width: 240.0,
+                  height: 240.0,
+                  child: TripProgress(trip: trip),
+                ),
+                Container(
+                  width: 240.0,
+                  child: TripTime(trip: trip),
+                ),
+                Container(
+                  child: AppButton(
+                    buttonName: "Edit",
+                    gradient: LinearGradient(colors: [
+                      AppTheme.primaryColor,
+                      AppTheme.secondaryColor
+                    ]),
+                    onPressed: toggleEditMode,
+                  ),
+                ),
+              ],
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void toggleEditMode() {
     setState(() {
-      this.trip.creation = DateTime.now();
+      this.editMode = !this.editMode;
     });
   }
 }
